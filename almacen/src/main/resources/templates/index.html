@@ -13,12 +13,17 @@
         <a th:href="@{/inventario}">Inventario</a>
         <a th:href="@{/pedidos}">Pedidos</a>
         <a th:href="@{/ventas}">Ventas</a>
+        <form th:action="@{/logout}" method="post" style="display:inline; margin-left:1rem;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit">Cerrar sesión</button>
+        </form>
     </nav>
 </header>
 <main>
     <section>
         <h2>Bienvenido</h2>
         <p>Selecciona una opción del menú para administrar el almacén sobre Tomcat y MySQL.</p>
+        <p th:text="'Sesión iniciada como ' + ${#httpServletRequest.userPrincipal?.name}"></p>
     </section>
 </main>
 </body>

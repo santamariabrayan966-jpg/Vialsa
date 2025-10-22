@@ -13,9 +13,14 @@
         <a th:href="@{/productos}">Productos</a>
         <a th:href="@{/inventario}">Inventario</a>
         <a th:href="@{/pedidos}">Pedidos</a>
+        <form th:action="@{/logout}" method="post" style="display:inline; margin-left:1rem;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit">Cerrar sesión</button>
+        </form>
     </nav>
 </header>
 <main>
+    <p th:text="'Sesión iniciada como ' + ${#httpServletRequest.userPrincipal?.name}"></p>
     <section>
         <h2>Registro de ventas</h2>
         <table>
@@ -24,13 +29,15 @@
                 <th>ID</th>
                 <th>Cliente</th>
                 <th>Fecha</th>
+                <th>Total</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="venta : ${ventas}">
                 <td th:text="${venta.id}"></td>
-                <td th:text="${venta.clienteId}"></td>
+                <td th:text="${venta.clienteNombre}"></td>
                 <td th:text="${venta.fecha}"></td>
+                <td th:text="${#numbers.formatDecimal(venta.total, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
             </tbody>
         </table>

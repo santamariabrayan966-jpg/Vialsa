@@ -17,8 +17,10 @@ public class JdbcClienteDao implements ClienteDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Cliente> mapper = (rs, rowNum) -> {
         Cliente cliente = new Cliente();
-        cliente.setId(rs.getLong("id"));
-        cliente.setNombre(rs.getString("nombre"));
+        cliente.setId(rs.getLong("idClientes"));
+        String nombres = rs.getString("nombres");
+        String apellidos = rs.getString("apellidos");
+        cliente.setNombre(String.format("%s %s", nombres == null ? "" : nombres.trim(), apellidos == null ? "" : apellidos.trim()).trim());
         cliente.setCorreo(rs.getString("correo"));
         cliente.setTelefono(rs.getString("telefono"));
         return cliente;
@@ -31,7 +33,9 @@ public class JdbcClienteDao implements ClienteDao {
     @Override
     public List<Cliente> findAll() {
         try {
-            return jdbcTemplate.query("SELECT id, nombre, correo, telefono FROM clientes ORDER BY nombre", mapper);
+            return jdbcTemplate.query(
+                    "SELECT idClientes, nombres, apellidos, correo, telefono FROM Clientes ORDER BY apellidos, nombres",
+                    mapper);
         } catch (DataAccessException ex) {
             throw new DaoException("Error al consultar clientes", ex);
         }
@@ -40,7 +44,10 @@ public class JdbcClienteDao implements ClienteDao {
     @Override
     public Optional<Cliente> findById(Long id) {
         try {
-            List<Cliente> clientes = jdbcTemplate.query("SELECT id, nombre, correo, telefono FROM clientes WHERE id = ?", mapper, id);
+            List<Cliente> clientes = jdbcTemplate.query(
+                    "SELECT idClientes, nombres, apellidos, correo, telefono FROM Clientes WHERE idClientes = ?",
+                    mapper,
+                    id);
             return clientes.stream().findFirst();
         } catch (DataAccessException ex) {
             throw new DaoException("Error al consultar cliente", ex);
