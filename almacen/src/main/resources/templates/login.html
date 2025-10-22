@@ -11,24 +11,28 @@
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body class="login-body">
-<main class="login-wrapper">
-    <section class="login-card">
-        <div class="brand">
-            <img th:src="@{/images/vialsa-logo.svg}" alt="Vialsa" class="brand__logo">
-            <div class="brand__copy">
-                <h1>Vialsa</h1>
-                <p>Gestión integral de almacén</p>
+<main class="login-container">
+    <div class="login-panel">
+        <div class="login-panel__brand">
+            <img th:src="@{/images/vialsa-logo.svg}" alt="Vialsa" class="brand-logo">
+            <div>
+                <h1 class="brand-title">Vialsa</h1>
+                <p class="brand-subtitle">Gestión integral de almacenes</p>
             </div>
         </div>
 
-        <h2 class="login-title">Bienvenido nuevamente</h2>
-        <p class="login-subtitle">Accede con tu usuario corporativo para continuar</p>
+        <div class="login-panel__copy">
+            <h2>Bienvenido nuevamente</h2>
+            <p>Accede con tu usuario corporativo para continuar</p>
+        </div>
 
-        <div th:if="${param.error}" class="alert alert--error">
+        <div th:if="${param.error}" class="alert alert--error" role="alert">
+            <span class="alert__icon" aria-hidden="true">!</span>
             <span>Las credenciales ingresadas no son válidas. Inténtalo nuevamente.</span>
         </div>
 
-        <div th:if="${param.logout}" class="alert alert--success">
+        <div th:if="${param.logout}" class="alert alert--success" role="status">
+            <span class="alert__icon" aria-hidden="true">✓</span>
             <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
         </div>
 
@@ -47,6 +51,26 @@
 
             <button type="submit" class="login-button">Entrar al sistema</button>
         </form>
+
+        <p class="login-footer">© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
+    </div>
+
+    <aside class="login-aside">
+        <div class="login-aside__content">
+            <h2>Control logístico con precisión</h2>
+            <p>
+                Coordina inventario, pedidos y entregas desde una sola plataforma.
+                Visualiza indicadores clave y anticípate a las necesidades del almacén.
+            </p>
+
+            <ul class="aside-list">
+                <li>Inventario actualizado minuto a minuto</li>
+                <li>Alertas inteligentes de reposición</li>
+                <li>Seguimiento completo de pedidos</li>
+            </ul>
+        </div>
+    </aside>
+
     </section>
 
     <section class="login-illustration">
