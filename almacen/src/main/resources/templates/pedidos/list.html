@@ -25,14 +25,16 @@
                 <th>Cliente</th>
                 <th>Fecha</th>
                 <th>Estado</th>
+                <th>Total</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="pedido : ${pedidos}">
                 <td th:text="${pedido.id}"></td>
-                <td th:text="${pedido.clienteId}"></td>
+                <td th:text="${pedido.clienteNombre}"></td>
                 <td th:text="${pedido.fecha}"></td>
                 <td th:text="${pedido.estado}"></td>
+                <td th:text="${#numbers.formatDecimal(pedido.total, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
             </tbody>
         </table>

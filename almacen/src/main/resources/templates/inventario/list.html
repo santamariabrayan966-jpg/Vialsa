@@ -56,9 +56,6 @@
             <input id="cantidad" type="number" min="1" th:field="*{cantidad}">
             <span class="error" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></span>
 
-            <label for="referencia">Referencia</label>
-            <input id="referencia" type="text" th:field="*{referencia}">
-
             <button type="submit">Registrar movimiento</button>
         </form>
     </section>

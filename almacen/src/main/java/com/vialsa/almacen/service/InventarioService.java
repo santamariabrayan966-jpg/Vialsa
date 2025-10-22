@@ -31,15 +31,15 @@ public class InventarioService {
         return movimientoDao.findByProducto(productoId);
     }
 
-    public void registrarEntrada(Long productoId, int cantidad, String referencia) {
-        ajustarInventario(productoId, cantidad, InventarioMovimientoTipo.ENTRADA, referencia);
+    public void registrarEntrada(Long productoId, int cantidad) {
+        ajustarInventario(productoId, cantidad, InventarioMovimientoTipo.ENTRADA);
     }
 
-    public void registrarSalida(Long productoId, int cantidad, String referencia) {
-        ajustarInventario(productoId, cantidad * -1, InventarioMovimientoTipo.SALIDA, referencia);
+    public void registrarSalida(Long productoId, int cantidad) {
+        ajustarInventario(productoId, cantidad * -1, InventarioMovimientoTipo.SALIDA);
     }
 
-    private void ajustarInventario(Long productoId, int delta, InventarioMovimientoTipo tipo, String referencia) {
+    private void ajustarInventario(Long productoId, int delta, InventarioMovimientoTipo tipo) {
         Producto producto = productoDao.findById(productoId)
                 .orElseThrow(() -> new ServiceException("Producto no encontrado"));
         int nuevoStock = producto.getStock() + delta;
@@ -52,7 +52,6 @@ public class InventarioService {
         movimiento.setProductoId(productoId);
         movimiento.setCantidad(Math.abs(delta));
         movimiento.setTipo(tipo);
-        movimiento.setReferencia(referencia);
         movimiento.setFecha(LocalDateTime.now());
         movimientoDao.registrarMovimiento(movimiento);
     }
