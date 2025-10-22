@@ -15,8 +15,6 @@ public class InventarioAjusteForm {
     @Min(1)
     private int cantidad;
 
-    private String referencia;
-
     public Long getProductoId() {
         return productoId;
     }
@@ -41,11 +39,4 @@ public class InventarioAjusteForm {
         this.cantidad = cantidad;
     }
 
-    public String getReferencia() {
-        return referencia;
-    }
-
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
-    }
 }

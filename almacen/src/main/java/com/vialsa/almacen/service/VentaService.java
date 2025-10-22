@@ -34,22 +34,31 @@ public class VentaService {
         if (detalles == null || detalles.isEmpty()) {
             throw new ServiceException("La venta debe contener al menos un producto");
         }
-        Venta creada = ventaDao.crear(venta);
-
+        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+        java.util.Map<Long, Producto> productosCache = new java.util.HashMap<>();
         for (VentaDetalle detalle : detalles) {
-            Producto producto = productoService.obtenerPorId(detalle.getProductoId());
-            if (detalle.getCantidad() <= 0) {
+            Producto producto = productosCache.computeIfAbsent(detalle.getProductoId(), productoService::obtenerPorId);
+            if (detalle.getCantidad() == null || detalle.getCantidad().signum() <= 0) {
                 throw new ServiceException("La cantidad debe ser mayor a cero");
             }
-            detalle.setVentaId(creada.getId());
             if (detalle.getPrecioUnitario() == null) {
                 detalle.setPrecioUnitario(producto.getPrecio());
             }
-            inventarioService.registrarSalida(producto.getId(), detalle.getCantidad(), "Venta " + creada.getId());
+            total = total.add(detalle.getSubtotal());
+        }
+        venta.setTotal(total);
+
+        Venta creada = ventaDao.crear(venta);
+
+        for (VentaDetalle detalle : detalles) {
+            Producto producto = productosCache.get(detalle.getProductoId());
+            detalle.setVentaId(creada.getId());
+            inventarioService.registrarSalida(producto.getId(), detalle.getCantidad().intValue());
         }
 
         detalleDao.guardarDetalles(detalles);
         creada.setDetalles(detalles);
+        creada.setTotal(total);
         return creada;
     }
 
