@@ -5,9 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vialsa | Iniciar sesión</title>
+ codex/update-application.properties-for-mysql-config-3cp5m0
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
  codex/update-application.properties-for-mysql-config-uekked
+ main
 <body class="login-body">
 <main class="login-wrapper">
     <section class="login-card">
@@ -47,6 +55,26 @@
         </form>
     </section>
 
+codex/update-application.properties-for-mysql-config-3cp5m0
+    <section class="login-illustration">
+        <h2 class="illustration-title">Control logístico con precisión</h2>
+        <p class="illustration-copy">
+            Optimiza ingresos, salidas y trazabilidad con un tablero moderno diseñado para los equipos de Vialsa.
+            Visualiza indicadores clave, órdenes y movimientos críticos en segundos.
+        </p>
+
+        <div class="illustration-badges">
+            <span class="badge">Inventario en tiempo real</span>
+            <span class="badge">Pedidos sin errores</span>
+            <span class="badge">Reportes automatizados</span>
+            <span class="badge">Soporte 24/7</span>
+        </div>
+    </section>
+
+    <footer class="login-footer">
+        <p>© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
+    </footer>
+
     <footer class="login-footer">
         <p>© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
     </footer>
@@ -76,6 +104,7 @@
         </div>
     </form>
  main
+main
 </main>
 </body>
 </html>
