@@ -21,8 +21,13 @@ public class JdbcUsuarioDao implements UsuarioDao {
     @Override
     public Optional<Usuario> findByNombreUsuario(String nombreUsuario) {
         List<Usuario> usuarios = jdbcTemplate.query(
+codex/update-application.properties-for-mysql-config-3cp5m0
                 "SELECT idUsuario AS id, TRIM(NombreUsuario) AS nombreUsuario, TRIM(Contrasena) AS contrasena, " +
                         "TRIM(Nombres) AS nombres, TRIM(Apellidos) AS apellidos, TRIM(Correo) AS correo, " +
+
+                "SELECT idUsuario AS id, NombreUsuario AS nombreUsuario, Contrasena AS contrasena, " +
+                        "Nombres AS nombres, Apellidos AS apellidos, Correo AS correo, " +
+main
                         "idRol AS idRol, idEstadoUsuario AS idEstadoUsuario FROM Usuarios WHERE NombreUsuario = ?",
                 new BeanPropertyRowMapper<>(Usuario.class),
                 nombreUsuario
@@ -35,3 +40,7 @@ public class JdbcUsuarioDao implements UsuarioDao {
         return Optional.of(usuarios.get(0));
     }
 }
+codex/update-application.properties-for-mysql-config-3cp5m0
+
+
+ main
