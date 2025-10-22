@@ -2,10 +2,7 @@ package com.vialsa.almacen.service;
 
 import com.vialsa.almacen.dao.UsuarioDao;
 import com.vialsa.almacen.model.Usuario;
-codex/update-application.properties-for-mysql-config-3cp5m0
 import org.springframework.security.authentication.DisabledException;
-
- main
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +31,6 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = usuarioDao.findByNombreUsuario(username)
                 .orElseThrow(() -> new UsernameNotFoundException("No se encontró el usuario: " + username));
 
-codex/update-application.properties-for-mysql-config-3cp5m0
         if (usuario.getIdEstadoUsuario() != null && usuario.getIdEstadoUsuario() != 1) {
             throw new DisabledException("El usuario no se encuentra activo");
         }
@@ -47,13 +43,6 @@ codex/update-application.properties-for-mysql-config-3cp5m0
                 usuario.getNombreUsuario(),
                 usuario.getContrasena(),
                 Collections.singletonList(new SimpleGrantedAuthority(rol))
-
-        return new User(
-                usuario.getNombreUsuario(),
-                usuario.getContrasena(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
- main
         );
     }
 }
-
