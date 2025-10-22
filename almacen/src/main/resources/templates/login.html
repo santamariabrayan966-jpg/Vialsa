@@ -11,6 +11,32 @@
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body class="login-body">
+<main class="login-shell">
+    <section class="login-card">
+        <header class="login-card__header">
+            <div class="login-card__brand">
+                <img th:src="@{/images/vialsa-logo.svg}" alt="Logo de Vialsa" class="brand-logo">
+                <div class="brand-copy">
+                    <h1 class="brand-title">Vialsa</h1>
+                    <p class="brand-subtitle">Gestión integral de almacenes</p>
+                </div>
+            </div>
+            <div class="login-card__intro">
+                <h2>Bienvenido nuevamente</h2>
+                <p>Ingresa tus credenciales corporativas para continuar.</p>
+            </div>
+        </header>
+
+        <div class="login-card__messages">
+            <div th:if="${param.error}" class="alert alert--error" role="alert">
+                <span class="alert__icon" aria-hidden="true">!</span>
+                <span>Las credenciales ingresadas no son válidas. Inténtalo nuevamente.</span>
+            </div>
+
+            <div th:if="${param.logout}" class="alert alert--success" role="status">
+                <span class="alert__icon" aria-hidden="true">✓</span>
+                <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
+            </div>
 <main class="login-container">
     <div class="login-panel">
         <div class="login-panel__brand">
@@ -49,8 +75,42 @@
                 <input type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
             </label>
 
-            <button type="submit" class="login-button">Entrar al sistema</button>
+            <button type="submit" class="login-button">Iniciar sesión</button>
         </form>
+
+        <footer class="login-card__footer">
+            <p>¿Problemas para ingresar? Contacta al área de sistemas.</p>
+            <p class="login-card__copyright">© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
+        </footer>
+    </section>
+
+    <aside class="login-showcase">
+        <div class="login-showcase__intro">
+            <h2>Control logístico sin fricciones</h2>
+            <p>
+                Visualiza inventario, ventas y pedidos en tiempo real desde una consola única.
+                Automatiza los movimientos críticos y genera reportes confiables en segundos.
+            </p>
+        </div>
+
+        <div class="login-showcase__grid">
+            <article class="showcase-card">
+                <h3>Cadena de suministro optimizada</h3>
+                <ul>
+                    <li>Alertas inteligentes para evitar quiebres de stock</li>
+                    <li>Proveedores y compras integradas en un solo tablero</li>
+                </ul>
+            </article>
+
+            <article class="showcase-card">
+                <h3>Reportes estratégicos 24/7</h3>
+                <ul>
+                    <li>KPIs de cumplimiento y desempeño al instante</li>
+                    <li>Exportación simple para auditorías y comités</li>
+                </ul>
+            </article>
+        </div>
+    </aside>
 
         <p class="login-footer">© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
     </div>

@@ -28,7 +28,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/login").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/login", "/error", "/error/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -47,7 +47,7 @@ public class SecurityConfig {
     }
 
     @Bean
- codex/create-database-and-tables-for-vialsa-9h2u39
+
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
             private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
@@ -65,6 +65,11 @@ public class SecurityConfig {
 
                 String candidate = encodedPassword.trim();
 
+
+                if (candidate.startsWith("{bcrypt}")) {
+                    return bcrypt.matches(rawPassword, candidate.substring("{bcrypt}".length()));
+                }
+
                 if (candidate.startsWith("$2a$") || candidate.startsWith("$2b$") || candidate.startsWith("$2y$")) {
                     return bcrypt.matches(rawPassword, candidate);
                 }
@@ -76,6 +81,7 @@ public class SecurityConfig {
                 return rawPassword.toString().equals(candidate);
             }
         };
+
 
     @SuppressWarnings("deprecation")
     public PasswordEncoder passwordEncoder() {

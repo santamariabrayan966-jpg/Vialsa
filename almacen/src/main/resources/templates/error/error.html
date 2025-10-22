@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Se produjo un error</title>
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: #111827;
+            color: #f8fafc;
+            margin: 0;
+            font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+        }
+        .error-wrapper {
+            max-width: 520px;
+            padding: 2.25rem 2.75rem;
+            border-radius: 20px;
+            background: rgba(17, 24, 39, 0.88);
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.4);
+        }
+        h1 {
+            margin: 0 0 1rem;
+            font-size: 2rem;
+        }
+        p {
+            margin: 0 0 1.5rem;
+            line-height: 1.6;
+            color: rgba(248, 250, 252, 0.85);
+        }
+        a {
+            display: inline-block;
+            padding: 0.8rem 1.3rem;
+            border-radius: 999px;
+            text-decoration: none;
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="error-wrapper">
+    <h1>Ups, algo salió mal</h1>
+    <p>El sistema no pudo completar la acción solicitada. Inténtalo nuevamente en unos segundos o comunícate con soporte.</p>
+    <a th:href="@{/}">Volver al inicio</a>
+</div>
+</body>
+</html>

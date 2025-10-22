@@ -24,7 +24,6 @@ public class JdbcUsuarioDao implements UsuarioDao {
                 "SELECT idUsuario AS id, TRIM(NombreUsuario) AS nombreUsuario, TRIM(Contrasena) AS contrasena, " +
                         "TRIM(Nombres) AS nombres, TRIM(Apellidos) AS apellidos, TRIM(Correo) AS correo, " +
                         "idRol AS idRol, idEstadoUsuario AS idEstadoUsuario FROM Usuarios WHERE TRIM(NombreUsuario) = TRIM(?)",
-                        "idRol AS idRol, idEstadoUsuario AS idEstadoUsuario FROM Usuarios WHERE NombreUsuario = ?",
                 new BeanPropertyRowMapper<>(Usuario.class),
                 nombreUsuario
         );
