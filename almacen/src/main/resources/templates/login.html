@@ -5,37 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vialsa | Iniciar sesión</title>
- codex/update-application.properties-for-mysql-config-3cp5m0
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
-
-    <link rel="stylesheet" th:href="@{/css/login.css}">
-</head>
- codex/update-application.properties-for-mysql-config-uekked
- main
 <body class="login-body">
-<main class="login-wrapper">
+<main class="login-shell">
     <section class="login-card">
-        <div class="brand">
-            <img th:src="@{/images/vialsa-logo.svg}" alt="Vialsa" class="brand__logo">
-            <div class="brand__copy">
-                <h1>Vialsa</h1>
-                <p>Gestión integral de almacén</p>
+        <header class="login-card__header">
+            <div class="login-card__brand">
+                <img th:src="@{/images/vialsa-logo.svg}" alt="Logo de Vialsa" class="brand-logo">
+                <div class="brand-copy">
+                    <h1 class="brand-title">Vialsa</h1>
+                    <p class="brand-subtitle">Gestión integral de almacenes</p>
+                </div>
             </div>
-        </div>
+            <div class="login-card__intro">
+                <h2>Bienvenido nuevamente</h2>
+                <p>Ingresa tus credenciales corporativas para continuar.</p>
+            </div>
+        </header>
 
-        <h2 class="login-title">Bienvenido nuevamente</h2>
-        <p class="login-subtitle">Accede con tu usuario corporativo para continuar</p>
+        <div class="login-card__messages">
+            <div th:if="${param.error}" class="alert alert--error" role="alert">
+                <span class="alert__icon" aria-hidden="true">!</span>
+                <span>Las credenciales ingresadas no son válidas. Inténtalo nuevamente.</span>
+            </div>
 
-        <div th:if="${param.error}" class="alert alert--error">
-            <span>Las credenciales ingresadas no son válidas. Inténtalo nuevamente.</span>
-        </div>
-
-        <div th:if="${param.logout}" class="alert alert--success">
-            <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
+            <div th:if="${param.logout}" class="alert alert--success" role="status">
+                <span class="alert__icon" aria-hidden="true">✓</span>
+                <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
+            </div>
         </div>
 
         <form th:action="@{/login}" method="post" class="login-form">
@@ -51,60 +52,42 @@
                 <input type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
             </label>
 
-            <button type="submit" class="login-button">Entrar al sistema</button>
+            <button type="submit" class="login-button">Iniciar sesión</button>
         </form>
+
+        <footer class="login-card__footer">
+            <p>¿Problemas para ingresar? Contacta al área de sistemas.</p>
+            <p class="login-card__copyright">© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
+        </footer>
     </section>
 
-codex/update-application.properties-for-mysql-config-3cp5m0
-    <section class="login-illustration">
-        <h2 class="illustration-title">Control logístico con precisión</h2>
-        <p class="illustration-copy">
-            Optimiza ingresos, salidas y trazabilidad con un tablero moderno diseñado para los equipos de Vialsa.
-            Visualiza indicadores clave, órdenes y movimientos críticos en segundos.
-        </p>
-
-        <div class="illustration-badges">
-            <span class="badge">Inventario en tiempo real</span>
-            <span class="badge">Pedidos sin errores</span>
-            <span class="badge">Reportes automatizados</span>
-            <span class="badge">Soporte 24/7</span>
+    <aside class="login-showcase">
+        <div class="login-showcase__intro">
+            <h2>Control logístico sin fricciones</h2>
+            <p>
+                Visualiza inventario, ventas y pedidos en tiempo real desde una consola única.
+                Automatiza los movimientos críticos y genera reportes confiables en segundos.
+            </p>
         </div>
-    </section>
 
-    <footer class="login-footer">
-        <p>© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
-    </footer>
+        <div class="login-showcase__grid">
+            <article class="showcase-card">
+                <h3>Cadena de suministro optimizada</h3>
+                <ul>
+                    <li>Alertas inteligentes para evitar quiebres de stock</li>
+                    <li>Proveedores y compras integradas en un solo tablero</li>
+                </ul>
+            </article>
 
-    <footer class="login-footer">
-        <p>© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
-    </footer>
-
-<body>
-<main>
-    <h2>Por favor, inicia sesión</h2>
-
-    <div th:if="${param.error}">
-        <p style="color:red;">Credenciales inválidas</p>
-    </div>
-
-    <div th:if="${param.logout}">
-        <p style="color:green;">Sesión cerrada correctamente</p>
-    </div>
-
-    <form th:action="@{/login}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <div>
-            <input type="text" name="username" placeholder="Nombre de usuario" required />
+            <article class="showcase-card">
+                <h3>Reportes estratégicos 24/7</h3>
+                <ul>
+                    <li>KPIs de cumplimiento y desempeño al instante</li>
+                    <li>Exportación simple para auditorías y comités</li>
+                </ul>
+            </article>
         </div>
-        <div>
-            <input type="password" name="password" placeholder="Contraseña" required />
-        </div>
-        <div>
-            <button type="submit">Iniciar sesión</button>
-        </div>
-    </form>
- main
-main
+    </aside>
 </main>
 </body>
 </html>
