@@ -34,7 +34,6 @@ public class UsuarioService implements UserDetailsService {
 
         Usuario usuario = usuarioDao.findByNombreUsuario(username.trim())
                 .orElseThrow(() -> new UsernameNotFoundException("No se encontró el usuario: " + username));
-
         if (usuario.getContrasena() == null || usuario.getContrasena().isBlank()) {
             throw new UsernameNotFoundException("El usuario no tiene una contraseña registrada");
         }
