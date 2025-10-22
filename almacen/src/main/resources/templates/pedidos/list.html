@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<header>
+    <h1>Pedidos</h1>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/productos}">Productos</a>
+        <a th:href="@{/inventario}">Inventario</a>
+        <a th:href="@{/ventas}">Ventas</a>
+    </nav>
+</header>
+<main>
+    <section>
+        <h2>Registro de pedidos</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pedido : ${pedidos}">
+                <td th:text="${pedido.id}"></td>
+                <td th:text="${pedido.clienteId}"></td>
+                <td th:text="${pedido.fecha}"></td>
+                <td th:text="${pedido.estado}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <h2>Crear nuevo pedido</h2>
+        <form th:action="@{/pedidos}" th:object="${pedidoForm}" method="post">
+            <label for="clienteId">Cliente</label>
+            <select id="clienteId" th:field="*{clienteId}">
+                <option value="" disabled selected>Seleccione un cliente</option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+            </select>
+            <span class="error" th:if="${#fields.hasErrors('clienteId')}" th:errors="*{clienteId}"></span>
+
+            <label for="productoId">Producto</label>
+            <select id="productoId" th:field="*{productoId}">
+                <option value="" disabled selected>Seleccione un producto</option>
+                <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.nombre}"></option>
+            </select>
+            <span class="error" th:if="${#fields.hasErrors('productoId')}" th:errors="*{productoId}"></span>
+
+            <label for="cantidad">Cantidad</label>
+            <input id="cantidad" type="number" min="1" th:field="*{cantidad}">
+            <span class="error" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></span>
+
+            <button type="submit">Registrar pedido</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

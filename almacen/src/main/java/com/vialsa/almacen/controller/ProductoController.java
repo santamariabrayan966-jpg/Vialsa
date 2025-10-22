@@ -1,24 +1,46 @@
 package com.vialsa.almacen.controller;
 
 import com.vialsa.almacen.model.Producto;
-import com.vialsa.almacen.repository.ProductoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vialsa.almacen.service.ProductoService;
+import com.vialsa.almacen.view.ProductoForm;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ProductoController {
 
-    @Autowired
-    private ProductoRepository productoRepository;
+    private final ProductoService productoService;
+
+    public ProductoController(ProductoService productoService) {
+        this.productoService = productoService;
+    }
 
     @GetMapping("/productos")
     public String listarProductos(Model model) {
-        List<Producto> productos = productoRepository.findAll();
-        model.addAttribute("productos", productos);
-        return "productos"; // Vista Thymeleaf
+        model.addAttribute("productos", productoService.listarProductos());
+        model.addAttribute("productoForm", new ProductoForm());
+        return "productos/list";
+    }
+
+    @PostMapping("/productos")
+    public String crearProducto(@Valid @ModelAttribute("productoForm") ProductoForm form,
+                                BindingResult bindingResult,
+                                Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("productos", productoService.listarProductos());
+            return "productos/list";
+        }
+        Producto producto = new Producto();
+        producto.setNombre(form.getNombre());
+        producto.setDescripcion(form.getDescripcion());
+        producto.setPrecio(form.getPrecio());
+        producto.setStock(form.getStock());
+        productoService.registrarProducto(producto);
+        return "redirect:/productos";
     }
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<header>
+    <h1>Ventas</h1>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/productos}">Productos</a>
+        <a th:href="@{/inventario}">Inventario</a>
+        <a th:href="@{/pedidos}">Pedidos</a>
+    </nav>
+</header>
+<main>
+    <section>
+        <h2>Registro de ventas</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="venta : ${ventas}">
+                <td th:text="${venta.id}"></td>
+                <td th:text="${venta.clienteId}"></td>
+                <td th:text="${venta.fecha}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <h2>Registrar nueva venta</h2>
+        <form th:action="@{/ventas}" th:object="${ventaForm}" method="post">
+            <label for="clienteId">Cliente</label>
+            <select id="clienteId" th:field="*{clienteId}">
+                <option value="" disabled selected>Seleccione un cliente</option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+            </select>
+            <span class="error" th:if="${#fields.hasErrors('clienteId')}" th:errors="*{clienteId}"></span>
+
+            <label for="productoId">Producto</label>
+            <select id="productoId" th:field="*{productoId}">
+                <option value="" disabled selected>Seleccione un producto</option>
+                <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.nombre}"></option>
+            </select>
+            <span class="error" th:if="${#fields.hasErrors('productoId')}" th:errors="*{productoId}"></span>
+
+            <label for="cantidad">Cantidad</label>
+            <input id="cantidad" type="number" min="1" th:field="*{cantidad}">
+            <span class="error" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></span>
+
+            <button type="submit">Registrar venta</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>
