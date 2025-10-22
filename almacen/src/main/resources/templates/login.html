@@ -1,9 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar sesión</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vialsa | Iniciar sesión</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
+ codex/update-application.properties-for-mysql-config-uekked
+<body class="login-body">
+<main class="login-wrapper">
+    <section class="login-card">
+        <div class="brand">
+            <img th:src="@{/images/vialsa-logo.svg}" alt="Vialsa" class="brand__logo">
+            <div class="brand__copy">
+                <h1>Vialsa</h1>
+                <p>Gestión integral de almacén</p>
+            </div>
+        </div>
+
+        <h2 class="login-title">Bienvenido nuevamente</h2>
+        <p class="login-subtitle">Accede con tu usuario corporativo para continuar</p>
+
+        <div th:if="${param.error}" class="alert alert--error">
+            <span>Las credenciales ingresadas no son válidas. Inténtalo nuevamente.</span>
+        </div>
+
+        <div th:if="${param.logout}" class="alert alert--success">
+            <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
+        </div>
+
+        <form th:action="@{/login}" method="post" class="login-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <label class="input-group">
+                <span class="input-label">Usuario</span>
+                <input type="text" name="username" placeholder="Ingresa tu usuario" autocomplete="username" required>
+            </label>
+
+            <label class="input-group">
+                <span class="input-label">Contraseña</span>
+                <input type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
+            </label>
+
+            <button type="submit" class="login-button">Entrar al sistema</button>
+        </form>
+    </section>
+
+    <footer class="login-footer">
+        <p>© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
+    </footer>
+
 <body>
 <main>
     <h2>Por favor, inicia sesión</h2>
@@ -28,6 +75,7 @@
             <button type="submit">Iniciar sesión</button>
         </div>
     </form>
+ main
 </main>
 </body>
 </html>
