@@ -7,6 +7,8 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -45,6 +47,7 @@ public class SecurityConfig {
     }
 
     @Bean
+
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
             private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
@@ -62,6 +65,7 @@ public class SecurityConfig {
 
                 String candidate = encodedPassword.trim();
 
+
                 if (candidate.startsWith("{bcrypt}")) {
                     return bcrypt.matches(rawPassword, candidate.substring("{bcrypt}".length()));
                 }
@@ -77,6 +81,11 @@ public class SecurityConfig {
                 return rawPassword.toString().equals(candidate);
             }
         };
+
+
+    @SuppressWarnings("deprecation")
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean

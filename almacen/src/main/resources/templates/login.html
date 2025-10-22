@@ -37,6 +37,29 @@
                 <span class="alert__icon" aria-hidden="true">✓</span>
                 <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
             </div>
+<main class="login-container">
+    <div class="login-panel">
+        <div class="login-panel__brand">
+            <img th:src="@{/images/vialsa-logo.svg}" alt="Vialsa" class="brand-logo">
+            <div>
+                <h1 class="brand-title">Vialsa</h1>
+                <p class="brand-subtitle">Gestión integral de almacenes</p>
+            </div>
+        </div>
+
+        <div class="login-panel__copy">
+            <h2>Bienvenido nuevamente</h2>
+            <p>Accede con tu usuario corporativo para continuar</p>
+        </div>
+
+        <div th:if="${param.error}" class="alert alert--error" role="alert">
+            <span class="alert__icon" aria-hidden="true">!</span>
+            <span>Las credenciales ingresadas no son válidas. Inténtalo nuevamente.</span>
+        </div>
+
+        <div th:if="${param.logout}" class="alert alert--success" role="status">
+            <span class="alert__icon" aria-hidden="true">✓</span>
+            <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
         </div>
 
         <form th:action="@{/login}" method="post" class="login-form">
@@ -88,6 +111,46 @@
             </article>
         </div>
     </aside>
+
+        <p class="login-footer">© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
+    </div>
+
+    <aside class="login-aside">
+        <div class="login-aside__content">
+            <h2>Control logístico con precisión</h2>
+            <p>
+                Coordina inventario, pedidos y entregas desde una sola plataforma.
+                Visualiza indicadores clave y anticípate a las necesidades del almacén.
+            </p>
+
+            <ul class="aside-list">
+                <li>Inventario actualizado minuto a minuto</li>
+                <li>Alertas inteligentes de reposición</li>
+                <li>Seguimiento completo de pedidos</li>
+            </ul>
+        </div>
+    </aside>
+
+    </section>
+
+    <section class="login-illustration">
+        <h2 class="illustration-title">Control logístico con precisión</h2>
+        <p class="illustration-copy">
+            Optimiza ingresos, salidas y trazabilidad con un tablero moderno diseñado para los equipos de Vialsa.
+            Visualiza indicadores clave, órdenes y movimientos críticos en segundos.
+        </p>
+
+        <div class="illustration-badges">
+            <span class="badge">Inventario en tiempo real</span>
+            <span class="badge">Pedidos sin errores</span>
+            <span class="badge">Reportes automatizados</span>
+            <span class="badge">Soporte 24/7</span>
+        </div>
+    </section>
 </main>
+
+<footer class="login-footer">
+    <p>© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa. Todos los derechos reservados.</p>
+</footer>
 </body>
 </html>
