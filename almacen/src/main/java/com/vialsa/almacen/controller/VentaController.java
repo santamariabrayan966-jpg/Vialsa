@@ -55,7 +55,7 @@ public class VentaController {
         venta.setClienteId(form.getClienteId());
         VentaDetalle detalle = new VentaDetalle();
         detalle.setProductoId(form.getProductoId());
-        detalle.setCantidad(form.getCantidad());
+        detalle.setCantidad(java.math.BigDecimal.valueOf(form.getCantidad()));
         venta.setDetalles(List.of(detalle));
         ventaService.registrarVenta(venta);
         return "redirect:/ventas";

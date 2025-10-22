@@ -7,7 +7,7 @@ public class VentaDetalle {
     private Long id;
     private Long ventaId;
     private Long productoId;
-    private int cantidad;
+    private BigDecimal cantidad;
     private BigDecimal precioUnitario;
 
     public Long getId() {
@@ -34,12 +34,12 @@ public class VentaDetalle {
         this.productoId = productoId;
     }
 
-    public int getCantidad() {
+    public BigDecimal getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setCantidad(BigDecimal cantidad) {
+        this.cantidad = cantidad == null ? BigDecimal.ZERO : cantidad;
     }
 
     public BigDecimal getPrecioUnitario() {
@@ -51,7 +51,10 @@ public class VentaDetalle {
     }
 
     public BigDecimal getSubtotal() {
-        return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
+        if (precioUnitario == null || cantidad == null) {
+            return BigDecimal.ZERO;
+        }
+        return precioUnitario.multiply(cantidad);
     }
 
     @Override

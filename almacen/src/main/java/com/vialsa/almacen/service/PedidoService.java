@@ -35,22 +35,31 @@ public class PedidoService {
             throw new ServiceException("El pedido debe contener al menos un producto");
         }
         pedido.setEstado("REGISTRADO");
-        Pedido creado = pedidoDao.crear(pedido);
-
+        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+        java.util.Map<Long, Producto> productosCache = new java.util.HashMap<>();
         for (PedidoDetalle detalle : detalles) {
-            Producto producto = productoService.obtenerPorId(detalle.getProductoId());
-            if (detalle.getCantidad() <= 0) {
+            Producto producto = productosCache.computeIfAbsent(detalle.getProductoId(), productoService::obtenerPorId);
+            if (detalle.getCantidad() == null || detalle.getCantidad().signum() <= 0) {
                 throw new ServiceException("La cantidad debe ser mayor a cero");
             }
-            detalle.setPedidoId(creado.getId());
             if (detalle.getPrecioUnitario() == null) {
                 detalle.setPrecioUnitario(producto.getPrecio());
             }
-            inventarioService.registrarEntrada(producto.getId(), detalle.getCantidad(), "Pedido " + creado.getId());
+            total = total.add(detalle.getSubtotal());
+        }
+        pedido.setTotal(total);
+
+        Pedido creado = pedidoDao.crear(pedido);
+
+        for (PedidoDetalle detalle : detalles) {
+            Producto producto = productosCache.get(detalle.getProductoId());
+            detalle.setPedidoId(creado.getId());
+            inventarioService.registrarEntrada(producto.getId(), detalle.getCantidad().intValue());
         }
 
         detalleDao.guardarDetalles(detalles);
         creado.setDetalles(detalles);
+        creado.setTotal(total);
         return creado;
     }
 

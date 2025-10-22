@@ -55,7 +55,7 @@ public class PedidoController {
         pedido.setClienteId(form.getClienteId());
         PedidoDetalle detalle = new PedidoDetalle();
         detalle.setProductoId(form.getProductoId());
-        detalle.setCantidad(form.getCantidad());
+        detalle.setCantidad(java.math.BigDecimal.valueOf(form.getCantidad()));
         pedido.setDetalles(List.of(detalle));
         pedidoService.crearPedido(pedido);
         return "redirect:/pedidos";

@@ -25,15 +25,17 @@ public class JdbcPedidoDetalleDao implements PedidoDetalleDao {
     public void guardarDetalles(List<PedidoDetalle> detalles) {
         try {
             jdbcTemplate.batchUpdate(
-                    "INSERT INTO pedido_detalles (pedido_id, producto_id, cantidad, precio_unitario) VALUES (?,?,?,?)",
+                    "INSERT INTO DetallePedido (idPedido, idProducto, idUnidad, Cantidad, PrecioUnitario, Descuento) VALUES (?,?,?,?,?,?)",
                     new BatchPreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement ps, int i) throws SQLException {
                             PedidoDetalle detalle = detalles.get(i);
                             ps.setLong(1, detalle.getPedidoId());
                             ps.setLong(2, detalle.getProductoId());
-                            ps.setInt(3, detalle.getCantidad());
-                            ps.setBigDecimal(4, detalle.getPrecioUnitario());
+                            ps.setNull(3, java.sql.Types.INTEGER);
+                            ps.setBigDecimal(4, detalle.getCantidad());
+                            ps.setBigDecimal(5, detalle.getPrecioUnitario());
+                            ps.setBigDecimal(6, java.math.BigDecimal.ZERO);
                         }
 
                         @Override
