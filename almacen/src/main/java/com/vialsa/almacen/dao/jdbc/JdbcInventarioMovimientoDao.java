@@ -23,12 +23,12 @@ public class JdbcInventarioMovimientoDao implements InventarioMovimientoDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<InventarioMovimiento> mapper = (rs, rowNum) -> {
         InventarioMovimiento movimiento = new InventarioMovimiento();
-        movimiento.setId(rs.getLong("id"));
-        movimiento.setProductoId(rs.getLong("producto_id"));
-        movimiento.setTipo(InventarioMovimientoTipo.valueOf(rs.getString("tipo")));
-        movimiento.setCantidad(rs.getInt("cantidad"));
-        movimiento.setReferencia(rs.getString("referencia"));
-        Timestamp timestamp = rs.getTimestamp("fecha");
+        movimiento.setId(rs.getLong("idMovimientosAlmacen"));
+        movimiento.setProductoId(rs.getLong("idProducto"));
+        String tipo = rs.getString("TipoMovimiento");
+        movimiento.setTipo(InventarioMovimientoTipo.valueOf(tipo == null ? "ENTRADA" : tipo.toUpperCase()));
+        movimiento.setCantidad(rs.getBigDecimal("Cantidad").intValue());
+        Timestamp timestamp = rs.getTimestamp("Fecha");
         movimiento.setFecha(timestamp == null ? null : timestamp.toLocalDateTime());
         return movimiento;
     };
@@ -43,14 +43,13 @@ public class JdbcInventarioMovimientoDao implements InventarioMovimientoDao {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(
-                        "INSERT INTO inventario_movimientos (producto_id, tipo, cantidad, referencia, fecha) VALUES (?,?,?,?,?)",
+                        "INSERT INTO MovimientosAlmacen (TipoMovimiento, Cantidad, Fecha, idProducto) VALUES (?,?,?,?)",
                         Statement.RETURN_GENERATED_KEYS);
-                ps.setLong(1, movimiento.getProductoId());
-                ps.setString(2, movimiento.getTipo().name());
-                ps.setInt(3, movimiento.getCantidad());
-                ps.setString(4, movimiento.getReferencia());
+                ps.setString(1, movimiento.getTipo().name());
+                ps.setBigDecimal(2, java.math.BigDecimal.valueOf(movimiento.getCantidad()));
                 LocalDateTime fecha = movimiento.getFecha();
-                ps.setTimestamp(5, fecha == null ? Timestamp.valueOf(LocalDateTime.now()) : Timestamp.valueOf(fecha));
+                ps.setTimestamp(3, fecha == null ? Timestamp.valueOf(LocalDateTime.now()) : Timestamp.valueOf(fecha));
+                ps.setLong(4, movimiento.getProductoId());
                 return ps;
             }, keyHolder);
             if (keyHolder.getKey() != null) {
@@ -65,7 +64,7 @@ public class JdbcInventarioMovimientoDao implements InventarioMovimientoDao {
     public List<InventarioMovimiento> findByProducto(Long productoId) {
         try {
             return jdbcTemplate.query(
-                    "SELECT id, producto_id, tipo, cantidad, referencia, fecha FROM inventario_movimientos WHERE producto_id = ? ORDER BY fecha DESC",
+                    "SELECT idMovimientosAlmacen, idProducto, TipoMovimiento, Cantidad, Fecha FROM MovimientosAlmacen WHERE idProducto = ? ORDER BY Fecha DESC",
                     mapper,
                     productoId);
         } catch (DataAccessException ex) {

@@ -8,7 +8,6 @@ public class InventarioMovimiento {
     private Long productoId;
     private InventarioMovimientoTipo tipo;
     private int cantidad;
-    private String referencia;
     private LocalDateTime fecha;
 
     public Long getId() {
@@ -41,14 +40,6 @@ public class InventarioMovimiento {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public String getReferencia() {
-        return referencia;
-    }
-
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
     }
 
     public LocalDateTime getFecha() {

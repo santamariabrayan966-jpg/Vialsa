@@ -1,5 +1,6 @@
 package com.vialsa.almacen.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,8 @@ public class Venta {
     private Long id;
     private Long clienteId;
     private LocalDateTime fecha;
+    private String clienteNombre = "";
+    private BigDecimal total = BigDecimal.ZERO;
     private List<VentaDetalle> detalles = new ArrayList<>();
 
     public Long getId() {
@@ -33,6 +36,22 @@ public class Venta {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public String getClienteNombre() {
+        return clienteNombre;
+    }
+
+    public void setClienteNombre(String clienteNombre) {
+        this.clienteNombre = clienteNombre == null ? "" : clienteNombre;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total == null ? BigDecimal.ZERO : total;
     }
 
     public List<VentaDetalle> getDetalles() {

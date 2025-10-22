@@ -39,9 +39,9 @@ public class InventarioController {
         }
 
         if (InventarioMovimientoTipo.ENTRADA.name().equalsIgnoreCase(form.getTipo())) {
-            inventarioService.registrarEntrada(form.getProductoId(), form.getCantidad(), form.getReferencia());
+            inventarioService.registrarEntrada(form.getProductoId(), form.getCantidad());
         } else if (InventarioMovimientoTipo.SALIDA.name().equalsIgnoreCase(form.getTipo())) {
-            inventarioService.registrarSalida(form.getProductoId(), form.getCantidad(), form.getReferencia());
+            inventarioService.registrarSalida(form.getProductoId(), form.getCantidad());
         } else {
             bindingResult.rejectValue("tipo", "tipo.invalido", "Tipo de movimiento no soportado");
             model.addAttribute("inventario", inventarioService.obtenerInventario());
