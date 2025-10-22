@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<header>
+    <h1>Productos</h1>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/inventario}">Inventario</a>
+        <a th:href="@{/pedidos}">Pedidos</a>
+        <a th:href="@{/ventas}">Ventas</a>
+    </nav>
+</header>
+<main>
+    <section>
+        <h2>Listado</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="producto : ${productos}">
+                <td th:text="${producto.nombre}"></td>
+                <td th:text="${producto.descripcion}"></td>
+                <td th:text="${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${producto.stock}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <h2>Registrar nuevo producto</h2>
+        <form th:action="@{/productos}" th:object="${productoForm}" method="post">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" th:field="*{nombre}">
+            <span class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+
+            <label for="descripcion">Descripción</label>
+            <input id="descripcion" type="text" th:field="*{descripcion}">
+
+            <label for="precio">Precio</label>
+            <input id="precio" type="number" min="0" step="0.01" th:field="*{precio}">
+            <span class="error" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
+
+            <label for="stock">Stock inicial</label>
+            <input id="stock" type="number" min="0" th:field="*{stock}">
+            <span class="error" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
+
+            <button type="submit">Guardar</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

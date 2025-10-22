@@ -1,22 +1,20 @@
-package com.vialsa.almacen.model;
+package com.vialsa.almacen.view;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
-public class Producto {
-    private Long id;
+public class ProductoForm {
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
     private String descripcion;
+    @NotNull(message = "El precio es obligatorio")
+    @Min(value = 1, message = "El precio debe ser mayor a cero")
     private BigDecimal precio;
+    @Min(value = 0, message = "El stock no puede ser negativo")
     private int stock;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -48,22 +46,5 @@ public class Producto {
 
     public void setStock(int stock) {
         this.stock = stock;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Producto producto)) return false;
-        return Objects.equals(id, producto.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return nombre;
     }
 }
