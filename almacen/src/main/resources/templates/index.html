@@ -23,7 +23,8 @@
     <section>
         <h2>Bienvenido</h2>
         <p>Selecciona una opción del menú para administrar el almacén sobre Tomcat y MySQL.</p>
-        <p th:text="'Sesión iniciada como ' + ${#httpServletRequest.userPrincipal?.name}"></p>
+        <p th:if="${#httpServletRequest.remoteUser != null}"
+           th:text="'Sesión iniciada como ' + #httpServletRequest.remoteUser"></p>
     </section>
 </main>
 </body>

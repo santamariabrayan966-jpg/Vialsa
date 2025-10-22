@@ -2,10 +2,7 @@ package com.vialsa.almacen.service;
 
 import com.vialsa.almacen.dao.UsuarioDao;
 import com.vialsa.almacen.model.Usuario;
-codex/update-application.properties-for-mysql-config-3cp5m0
 import org.springframework.security.authentication.DisabledException;
-
- main
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,10 +28,17 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioDao.findByNombreUsuario(username)
+        if (username == null || username.trim().isEmpty()) {
+            throw new UsernameNotFoundException("El nombre de usuario no puede estar vacío");
+        }
+
+        Usuario usuario = usuarioDao.findByNombreUsuario(username.trim())
                 .orElseThrow(() -> new UsernameNotFoundException("No se encontró el usuario: " + username));
 
-codex/update-application.properties-for-mysql-config-3cp5m0
+        if (usuario.getContrasena() == null || usuario.getContrasena().isBlank()) {
+            throw new UsernameNotFoundException("El usuario no tiene una contraseña registrada");
+        }
+
         if (usuario.getIdEstadoUsuario() != null && usuario.getIdEstadoUsuario() != 1) {
             throw new DisabledException("El usuario no se encuentra activo");
         }
@@ -44,16 +48,9 @@ codex/update-application.properties-for-mysql-config-3cp5m0
                 : "ROLE_USER";
 
         return new User(
-                usuario.getNombreUsuario(),
-                usuario.getContrasena(),
+                usuario.getNombreUsuario().trim(),
+                usuario.getContrasena().trim(),
                 Collections.singletonList(new SimpleGrantedAuthority(rol))
-
-        return new User(
-                usuario.getNombreUsuario(),
-                usuario.getContrasena(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
- main
         );
     }
 }
-
