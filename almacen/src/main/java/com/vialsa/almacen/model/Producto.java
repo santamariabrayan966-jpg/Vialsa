@@ -1,72 +1,98 @@
 package com.vialsa.almacen.model;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.util.Objects;
 
-@Entity
-@Table(name = "Productos")
+/**
+ * Representa un producto gestionado en el inventario del almacén.
+ */
 public class Producto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idProducto")
-    private Integer idProducto;
+    private Long id;
+    private String nombre;
+    private String descripcion;
+    private BigDecimal precioUnitario;
+    private int stock;
 
-    @Column(name = "CodigoInterno")
-    private String codigoInterno;
+    public Producto() {
+    }
 
-    @Column(name = "NombreProducto")
-    private String nombreProducto;
+    public Producto(Long id, String nombre, String descripcion, BigDecimal precioUnitario, int stock) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precioUnitario = precioUnitario;
+        this.stock = stock;
+    }
 
-    @Column(name = "Dimensiones")
-    private String dimensiones;
+    public Producto(String nombre, String descripcion, BigDecimal precioUnitario, int stock) {
+        this(null, nombre, descripcion, precioUnitario, stock);
+    }
 
-    @Column(name = "PrecioUnitario")
-    private Double precioUnitario;
+    public Long getId() {
+        return id;
+    }
 
-    @Column(name = "StockActual")
-    private Integer stockActual;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Column(name = "StockMinimo")
-    private Integer stockMinimo;
+    public String getNombre() {
+        return nombre;
+    }
 
-    @Column(name = "idUnidad")
-    private Integer idUnidad;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    @Column(name = "idTipoProducto")
-    private Integer idTipoProducto;
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-    @Column(name = "idEstadoProducto")
-    private Integer idEstadoProducto;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-    public Producto() {}
+    public BigDecimal getPrecioUnitario() {
+        return precioUnitario;
+    }
 
-    public Integer getIdProducto() { return idProducto; }
-    public void setIdProducto(Integer idProducto) { this.idProducto = idProducto; }
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
 
-    public String getCodigoInterno() { return codigoInterno; }
-    public void setCodigoInterno(String codigoInterno) { this.codigoInterno = codigoInterno; }
+    public int getStock() {
+        return stock;
+    }
 
-    public String getNombreProducto() { return nombreProducto; }
-    public void setNombreProducto(String nombreProducto) { this.nombreProducto = nombreProducto; }
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
-    public String getDimensiones() { return dimensiones; }
-    public void setDimensiones(String dimensiones) { this.dimensiones = dimensiones; }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Producto producto)) {
+            return false;
+        }
+        return Objects.equals(id, producto.id);
+    }
 
-    public Double getPrecioUnitario() { return precioUnitario; }
-    public void setPrecioUnitario(Double precioUnitario) { this.precioUnitario = precioUnitario; }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
-    public Integer getStockActual() { return stockActual; }
-    public void setStockActual(Integer stockActual) { this.stockActual = stockActual; }
-
-    public Integer getStockMinimo() { return stockMinimo; }
-    public void setStockMinimo(Integer stockMinimo) { this.stockMinimo = stockMinimo; }
-
-    public Integer getIdUnidad() { return idUnidad; }
-    public void setIdUnidad(Integer idUnidad) { this.idUnidad = idUnidad; }
-
-    public Integer getIdTipoProducto() { return idTipoProducto; }
-    public void setIdTipoProducto(Integer idTipoProducto) { this.idTipoProducto = idTipoProducto; }
-
-    public Integer getIdEstadoProducto() { return idEstadoProducto; }
-    public void setIdEstadoProducto(Integer idEstadoProducto) { this.idEstadoProducto = idEstadoProducto; }
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", precioUnitario=" + precioUnitario +
+                ", stock=" + stock +
+                '}';
+    }
 }
