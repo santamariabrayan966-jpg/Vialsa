@@ -23,7 +23,10 @@ public class JdbcUsuarioDao implements UsuarioDao {
         List<Usuario> usuarios = jdbcTemplate.query(
                 "SELECT idUsuario AS id, TRIM(NombreUsuario) AS nombreUsuario, TRIM(Contrasena) AS contrasena, " +
                         "TRIM(Nombres) AS nombres, TRIM(Apellidos) AS apellidos, TRIM(Correo) AS correo, " +
+                        "idRol AS idRol, idEstadoUsuario AS idEstadoUsuario " +
+                        "FROM Usuarios WHERE LOWER(TRIM(NombreUsuario)) = LOWER(TRIM(?)) LIMIT 1",
                         "idRol AS idRol, idEstadoUsuario AS idEstadoUsuario FROM Usuarios WHERE TRIM(NombreUsuario) = TRIM(?)",
+
                 new BeanPropertyRowMapper<>(Usuario.class),
                 nombreUsuario
         );

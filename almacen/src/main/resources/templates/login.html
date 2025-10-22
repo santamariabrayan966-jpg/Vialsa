@@ -5,6 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vialsa | Iniciar sesión</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body class="login">
+<main class="login__layout">
+    <section class="login__card" role="presentation">
+        <div class="login__brand">
+            <img th:src="@{/images/vialsa-logo.svg}" alt="Logo de Vialsa" width="64" height="64">
+            <div>
+                <h1>Vialsa</h1>
+                <p>Gestión integral de almacenes</p>
+            </div>
+        </div>
+
+        <header class="login__intro">
+            <h2>Bienvenido nuevamente</h2>
+            <p>Ingresa tus credenciales corporativas para continuar.</p>
+        </header>
+
+        <div class="login__messages" aria-live="polite">
+            <p th:if="${param.error}" class="login__message login__message--error">
+                Usuario o contraseña incorrectos. Revisa los datos e inténtalo otra vez.
+            </p>
+            <p th:if="${param.logout}" class="login__message login__message--success">
+                Sesión cerrada correctamente. ¡Hasta pronto!
+            </p>
+        </div>
+
+        <form th:action="@{/login}" method="post" class="login__form" autocomplete="on">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -65,16 +93,34 @@
         <form th:action="@{/login}" method="post" class="login-form">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-            <label class="input-group">
-                <span class="input-label">Usuario</span>
-                <input type="text" name="username" placeholder="Ingresa tu usuario" autocomplete="username" required>
+            <label class="login__field">
+                <span>Usuario</span>
+                <input type="text" name="username" placeholder="Tu usuario" autocomplete="username"
+                       th:value="${param.username}" required>
             </label>
 
-            <label class="input-group">
-                <span class="input-label">Contraseña</span>
-                <input type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
+            <label class="login__field">
+                <span>Contraseña</span>
+                <input type="password" name="password" placeholder="Tu contraseña" autocomplete="current-password" required>
             </label>
 
+            <button type="submit" class="login__submit">Iniciar sesión</button>
+        </form>
+
+        <footer class="login__footer">
+            <small>¿Problemas para ingresar? Contacta al área de sistemas.</small>
+            <small>© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span> Vialsa.</small>
+        </footer>
+    </section>
+
+    <aside class="login__aside">
+        <h2>Todo tu almacén, bajo control</h2>
+        <ul>
+            <li>Inventario actualizado en tiempo real.</li>
+            <li>Pedidos, compras y ventas en una sola vista.</li>
+            <li>Alertas de stock crítico y reportes descargables.</li>
+        </ul>
+    </aside>
             <button type="submit" class="login-button">Iniciar sesión</button>
         </form>
 

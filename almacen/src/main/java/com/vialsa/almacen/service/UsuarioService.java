@@ -28,8 +28,15 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioDao.findByNombreUsuario(username)
+        if (username == null || username.trim().isEmpty()) {
+            throw new UsernameNotFoundException("El nombre de usuario no puede estar vacío");
+        }
+
+        Usuario usuario = usuarioDao.findByNombreUsuario(username.trim())
                 .orElseThrow(() -> new UsernameNotFoundException("No se encontró el usuario: " + username));
+        if (usuario.getContrasena() == null || usuario.getContrasena().isBlank()) {
+            throw new UsernameNotFoundException("El usuario no tiene una contraseña registrada");
+        }
 
         if (usuario.getIdEstadoUsuario() != null && usuario.getIdEstadoUsuario() != 1) {
             throw new DisabledException("El usuario no se encuentra activo");
@@ -40,8 +47,8 @@ public class UsuarioService implements UserDetailsService {
                 : "ROLE_USER";
 
         return new User(
-                usuario.getNombreUsuario(),
-                usuario.getContrasena(),
+                usuario.getNombreUsuario().trim(),
+                usuario.getContrasena().trim(),
                 Collections.singletonList(new SimpleGrantedAuthority(rol))
         );
     }
